@@ -15,16 +15,18 @@ const getData = async () => {
 	// }
 
 	try {
-		const { data } = await axios.get(`https://example-tech-job-board.com/`, {
-			headers: {
-				'Content-Type': 'text/html',
-				'User-Agent':
-					'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
-			},
-		})
+		const { data } = await axios.get(
+			`https://nirzon47.github.io/scrape-job-posting/`,
+			{
+				headers: {
+					'Content-Type': 'text/html',
+					'User-Agent':
+						'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+				},
+			}
+		)
 
-		console.log(data)
-		fs.writeFileSync(path.join(__dirname, 'indeed.html'), data.data)
+		fs.writeFileSync(path.join(__dirname, 'console.log'), data)
 	} catch (error) {
 		console.error(error)
 	}

@@ -7,6 +7,7 @@ fake = Faker()
 
 job_postings = []
 
+# Generate 100 job postings
 for _ in range(100):
     job_posting = {
         "job_title": fake.job(),
@@ -18,6 +19,7 @@ for _ in range(100):
     }
     job_postings.append(job_posting)
 
+# Save job postings to JSON file
 with open("data.json", "w") as file:
     json.dump(job_postings, file, indent=2)
 
