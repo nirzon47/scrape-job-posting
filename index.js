@@ -1,19 +1,10 @@
 import axios from 'axios'
 import { load } from 'cheerio'
-import fs from 'fs'
-import path from 'path'
-
-const __dirname = path.resolve()
+import { utils, writeFile } from 'xlsx'
 
 const products = []
 
 const getData = async () => {
-	const page = 0
-
-	// if (page > 100) {
-	// 	return
-	// }
-
 	try {
 		const { data } = await axios.get(
 			`https://nirzon47.github.io/scrape-job-posting/`,
@@ -26,12 +17,27 @@ const getData = async () => {
 			}
 		)
 
-		fs.writeFileSync(path.join(__dirname, 'console.log'), data)
+		const $ = load(data)
+		const cards = $('.job-card').each((index, element) => {
+			const product = {
+				job_title: $(element).find('.job-title').text(),
+				company_name: $(element).find('.company-name').text(),
+				location: $(element).find('.location').text(),
+				job_type: $(element).find('.job-type').text(),
+				posted_date: $(element).find('.date').text(),
+				description: $(element).find('.job-description').text(),
+			}
+
+			products.push(product)
+		})
+
+		const workbook = utils.book_new()
+		const worksheet = utils.json_to_sheet(products)
+		utils.book_append_sheet(workbook, worksheet, 'Sheet 1')
+		writeFile(workbook, 'jobs.xlsx')
 	} catch (error) {
 		console.error(error)
 	}
-
-	// const $ = load(data)
 }
 
 getData()
