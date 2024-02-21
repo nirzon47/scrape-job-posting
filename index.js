@@ -13,7 +13,7 @@ const getData = async () => {
 	try {
 		// Getting data from response object sent by axios
 		const { data } = await axios.get(
-			`https://nirzon47.github.io/scrape-job-posting/`,
+			`https://nirzon47.github.io/html-datasets/job-posting-data.html`,
 			{
 				headers: {
 					// Setting content type as html so cheerio can parse it
@@ -29,7 +29,7 @@ const getData = async () => {
 		const $ = load(data)
 
 		// Extracting job postings
-		const cards = $('.job-card').each((index, element) => {
+		$('.job-card').each((index, element) => {
 			const product = {
 				job_title: $(element).find('.job-title').text(),
 				company_name: $(element).find('.company-name').text(),
